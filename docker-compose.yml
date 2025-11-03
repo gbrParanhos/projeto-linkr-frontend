@@ -1,0 +1,15 @@
+services:
+  frontend:
+    image: frontend
+    container_name: frontend_container
+    build: .
+    ports:
+      - "8080:80"
+    networks:
+      - my_network
+    env_file:
+      - .env
+
+networks:
+  my_network:
+    name: my_network
