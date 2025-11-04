@@ -24,7 +24,9 @@ export function useLogin() {
     try {
       setLoading(true);
       const { token } = await loginRequest(email, password);
+
       localStorage.setItem("auth_token", token);
+
       await Swal.fire({
         icon: "success",
         title: "Login realizado!",
@@ -32,6 +34,7 @@ export function useLogin() {
         timer: 2000,
         showConfirmButton: false,
       });
+
       navigate("/feed");
     } catch (err: unknown) {
       if (err instanceof Error && err.message === "INVALID_CREDENTIALS") {

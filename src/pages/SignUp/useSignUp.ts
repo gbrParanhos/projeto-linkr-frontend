@@ -25,6 +25,7 @@ export function useSignUp() {
     try {
       setLoading(true);
       await registerRequest(name, email, password);
+
       await Swal.fire({
         icon: "success",
         title: "Cadastro realizado com sucesso!",
@@ -32,6 +33,7 @@ export function useSignUp() {
         timer: 2000,
         showConfirmButton: false,
       });
+
       navigate("/");
     } catch (err: unknown) {
       if (err instanceof Error && err.message === "EMAIL_ALREADY_EXISTS") {
