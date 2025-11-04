@@ -1,8 +1,7 @@
 import * as React from "react"
+import { cn } from "../../../lib/utils"
 
-import { cn } from "../../lib/utils"
-
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+export default function DefaultInput({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
     <input
       type={type}
@@ -17,5 +16,3 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
     />
   )
 }
-
-export { Input }

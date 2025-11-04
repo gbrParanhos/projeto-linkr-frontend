@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import type { LayoutProps } from "../../../types";
+import type { TemplateProps } from "../../../types";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../organisms/NavBar";
 
-const SessionLayout = ({ children }: LayoutProps) => {
+const SessionTemplate = ({ children }: TemplateProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,4 +21,4 @@ const SessionLayout = ({ children }: LayoutProps) => {
 	);
 };
 
-export default SessionLayout;
+export default SessionTemplate;

@@ -1,8 +1,8 @@
-import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
+import { Button } from "../../atoms/Button";
 
 
-export default function AuthSubmit({
+export default function SubmitButton({
   loading,
   idleText,
   loadingText,
@@ -15,7 +15,7 @@ export default function AuthSubmit({
     <Button
       type="submit"
       disabled={loading}
-      className="h-[56px] sm:h-[60px] lg:h-[65px] bg-[#1877F2] hover:bg-[#166fe0] text-white font-oswald font-bold text-[20px] sm:text-[24px] lg:text-[27px] leading-[100%] tracking-[0em] transition-all disabled:opacity-70"
+      className="h-14 sm:h-[60px] lg:h-[65px] bg-[#1877F2] hover:bg-[#166fe0] text-white font-oswald font-bold text-[20px] sm:text-[24px] lg:text-[27px] leading-[100%] tracking-[0em] transition-all disabled:opacity-70"
     >
       {loading ? (
         <div className="flex items-center justify-center gap-2">

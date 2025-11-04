@@ -1,4 +1,4 @@
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent } from "../../atoms/Card";
 
 
 export default function FormShell({ children }: { children: React.ReactNode }) {

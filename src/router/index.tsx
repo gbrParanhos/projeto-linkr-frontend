@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import AuthLayout from "../components/layouts/AuthLayout";
+import AuthTemplate from "../components/templates/AuthTemplate";
 import LoginPage from "../pages/Login";
 import SignUpPage from "../pages/SignUp";
-import SessionLayout from "../components/layouts/SessionLayout";
+import SessionTemplate from "../components/templates/SessionTemplate";
 import FeedPage from "../pages/Feed";
 const Router = () => {
   return (
@@ -11,25 +11,25 @@ const Router = () => {
         <Route
           path="/"
           element={
-            <AuthLayout>
+            <AuthTemplate>
               <LoginPage />
-            </AuthLayout>
+            </AuthTemplate>
           }
         />
         <Route
           path="/sign-up"
           element={
-            <AuthLayout>
+            <AuthTemplate>
               <SignUpPage />
-            </AuthLayout>
+            </AuthTemplate>
           }
         />
         <Route
           path="/feed"
           element={
-            <SessionLayout>
+            <SessionTemplate>
               <FeedPage />
-            </SessionLayout>
+            </SessionTemplate>
           }
         />
       </Routes>
