@@ -15,11 +15,11 @@ export async function loginRequest(email: string, password: string) {
   return res.json();
 }
 
-export async function registerRequest(name: string, email: string, password: string) {
+export async function registerRequest(name: string, email: string, password: string, photo: string) {
   const res = await fetch(`${API_URL}/auth/sign-up`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password }),
+    body: JSON.stringify({ name, email, password, photo }),
   });
 
   if (!res.ok) {
