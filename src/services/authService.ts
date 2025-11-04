@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_BACKEND || "http://localhost:3000";
 
 export async function loginRequest(email: string, password: string) {
   const res = await fetch(`${API_URL}/auth/sign-in`, {

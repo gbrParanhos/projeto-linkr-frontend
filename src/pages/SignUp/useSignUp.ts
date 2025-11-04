@@ -42,6 +42,12 @@ export function useSignUp() {
           title: "Email já cadastrado!",
           text: "Tente fazer login ou use outro email.",
         });
+      } else if (err instanceof Error) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro ao cadastrar!",
+          text: err.message,
+        });
       } else {
         Swal.fire({
           icon: "error",
