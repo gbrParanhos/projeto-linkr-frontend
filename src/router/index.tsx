@@ -1,7 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import DefaultLayout from "../components/layouts/DefaultLayout";
+import AuthLayout from "../components/layouts/AuthLayout";
 import LoginPage from "../pages/Login";
 import SignUpPage from "../pages/SignUp";
+import SessionLayout from "../components/layouts/SessionLayout";
+import FeedPage from "../pages/Feed";
 const Router = () => {
   return (
     <BrowserRouter>
@@ -9,17 +11,25 @@ const Router = () => {
         <Route
           path="/"
           element={
-            <DefaultLayout>
+            <AuthLayout>
               <LoginPage />
-            </DefaultLayout>
+            </AuthLayout>
           }
         />
         <Route
           path="/sign-up"
           element={
-            <DefaultLayout>
+            <AuthLayout>
               <SignUpPage />
-            </DefaultLayout>
+            </AuthLayout>
+          }
+        />
+        <Route
+          path="/feed"
+          element={
+            <SessionLayout>
+              <FeedPage />
+            </SessionLayout>
           }
         />
       </Routes>
