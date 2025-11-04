@@ -1,13 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;600&family=Oswald:wght@300;400;500&family=Passion+One:wght@700&display=swap");
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --font-passion: "Passion One", system-ui, sans-serif;
+  --font-oswald: "Oswald", system-ui, sans-serif;
+  --font-lato: "Lato", system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-oswald);
   line-height: 1.5;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
 }
 
 button {
@@ -17,4 +33,23 @@ button {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+.font-passion {
+  font-family: var(--font-passion);
+}
+
+.font-oswald {
+  font-family: var(--font-oswald);
+}
+
+.font-lato {
+  font-family: var(--font-lato);
 }

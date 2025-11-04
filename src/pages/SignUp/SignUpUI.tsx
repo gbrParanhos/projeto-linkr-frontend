@@ -1,54 +1,88 @@
 import { Link } from "react-router-dom";
+import AuthLayout from "../../components/auth/Layout";
+import AuthHero from "../../components/auth/Hero";
+import AuthFormShell from "../../components/auth/FormShell";
+import AuthInput from "../../components/auth/Input";
+import AuthSubmit from "../../components/auth/Submit";
 
-type Props = {
-  name: string;
-  email: string;
-  password: string;
-  loading: boolean;
-  onName: (v: string) => void;
-  onEmail: (v: string) => void;
-  onPassword: (v: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
+
+export type Props = {
+name: string;
+email: string;
+password: string;
+photo: string;
+loading: boolean;
+onName: (v: string) => void;
+onEmail: (v: string) => void;
+onPassword: (v: string) => void;
+onPhoto: (v: string) => void;
+onSubmit: (e: React.FormEvent) => void;
 };
 
-export default function SignUpUI({ name, email, password, loading, onName, onEmail, onPassword, onSubmit }: Props) {
-  return (
-    <main style={{ padding: 24, display: "grid", placeItems: "center" }}>
-      <form onSubmit={onSubmit} style={{ display: "grid", gap: 12, width: 320, maxWidth: "90vw" }}>
-        <h1>Cadastrar</h1>
 
-        <input
-          type="text"
-          placeholder="Nome"
-          value={name}
-          onChange={(e) => onName(e.target.value)}
-          disabled={loading}
-        />
+export default function SignUpUI({
+name,
+email,
+password,
+photo,
+loading,
+onName,
+onEmail,
+onPassword,
+onPhoto,
+onSubmit,
+}: Props) {
+return (
+<AuthLayout hero={<AuthHero />}>
+<AuthFormShell>
+<form onSubmit={onSubmit} className="flex flex-col gap-4">
+<AuthInput
+type="text"
+placeholder="nome"
+value={name}
+onChange={(e) => onName(e.target.value)}
+disabled={loading}
+/>
 
-        <input
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => onEmail(e.target.value)}
-          disabled={loading}
-        />
 
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => onPassword(e.target.value)}
-          disabled={loading}
-        />
+<AuthInput
+type="url"
+placeholder="foto (URL)"
+value={photo}
+onChange={(e) => onPhoto(e.target.value)}
+disabled={loading}
+/>
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Cadastrando..." : "Cadastrar"}
-        </button>
 
-        <small style={{ textAlign: "center" }}>
-          <Link to="/">Voltar para login!</Link>
-        </small>
-      </form>
-    </main>
-  );
+<AuthInput
+type="email"
+placeholder="email"
+value={email}
+onChange={(e) => onEmail(e.target.value)}
+disabled={loading}
+/>
+
+
+<AuthInput
+type="password"
+placeholder="senha"
+value={password}
+onChange={(e) => onPassword(e.target.value)}
+disabled={loading}
+/>
+
+
+<AuthSubmit loading={loading} idleText="Cadastrar" loadingText="Cadastrando..." />
+
+
+<small className="text-center text-[15px] sm:text-[16px] font-lato text-white mt-2">
+Já tem uma conta?{" "}
+<Link to="/" className="font-lato text-white font-semibold hover:underline">
+Entrar
+</Link>
+</small>
+</form>
+</AuthFormShell>
+</AuthLayout>
+);
 }

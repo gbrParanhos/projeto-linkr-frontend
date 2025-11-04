@@ -7,24 +7,36 @@ export function useSignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [photo, setPhoto] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!name.trim() || !email.trim() || !password.trim()) {
+    if (!name.trim() || !email.trim() || !password.trim() || !photo.trim()) {
       await Swal.fire({
         icon: "warning",
         title: "Campos obrigatórios",
-        text: "Preencha nome, email e senha para continuar.",
+        text: "Preencha nome, email, senha e URL da foto para continuar.",
+      });
+      return;
+    }
+
+    try {
+      new URL(photo);
+    } catch {
+      await Swal.fire({
+        icon: "warning",
+        title: "URL inválida",
+        text: "Por favor, insira uma URL válida para a foto.",
       });
       return;
     }
 
     try {
       setLoading(true);
-      await registerRequest(name, email, password);
+      await registerRequest(name, email, password, photo);
 
       await Swal.fire({
         icon: "success",
@@ -58,10 +70,12 @@ export function useSignUp() {
     name,
     email,
     password,
+    photo,
     loading,
     setName,
     setEmail,
     setPassword,
+    setPhoto,
     onSubmit,
   };
 }
