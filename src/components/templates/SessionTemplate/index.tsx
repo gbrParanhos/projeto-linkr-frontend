@@ -19,7 +19,7 @@ const SessionTemplate = ({ children }: TemplateProps) => {
 	return (
     <>
       {!isLoading && (
-          <div className='flex bg-[#333333] h-dvh w-dvw items-center justify-center md:pt-28'>
+          <div className='flex bg-[#333333] h-dvh w-dvw items-center justify-center lg:pt-28'>
             <NavBar />
             {children}
           </div>
