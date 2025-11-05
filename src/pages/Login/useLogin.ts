@@ -23,8 +23,9 @@ export function useLogin() {
 
     try {
       setLoading(true);
-      const { token } = await loginRequest(email, password);
+      const { user_name, image_url, token } = await loginRequest(email, password);
 
+      localStorage.setItem("user_data", JSON.stringify({ user_name, image_url }));
       localStorage.setItem("auth_token", token);
 
       await Swal.fire({

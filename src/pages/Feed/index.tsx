@@ -2,11 +2,12 @@ import FeedUI from "./FeedUI";
 import { useFeed } from "./useFeed";
 
 export default function FeedPage() {
-  const { onLogout } = useFeed();
+  const feed = useFeed();
+
+  console.log(feed);
 
   return (
     <FeedUI
-      onLogout={onLogout}
     />
   );
 }

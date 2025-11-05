@@ -1,9 +1,10 @@
-type Props = {
-  onLogout: () => void;
-};
+// type Props = {
+//   feed: any;
+// };
 
-export default function FeedUI({ onLogout }: Props) {
+export default function FeedUI() {
   return (
-    <button className="bg-white" onClick={onLogout}>Sair</button>
+    <div>
+    </div>
   );
 }
