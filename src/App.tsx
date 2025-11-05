@@ -1,13 +1,8 @@
-import { UserProvider } from "./contexts/UserContext";
 import Router from "./router";
 import "./styles/index.css";
 
 const App = () => {
-  return (
-    <UserProvider>
-      <Router />
-    </UserProvider>
-  );
+  return <Router />;
 };
 
 export default App;

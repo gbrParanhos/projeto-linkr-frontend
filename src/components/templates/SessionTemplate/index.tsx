@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { TemplateProps } from "../../../types";
 import { useNavigate } from "react-router-dom";
 import NavBar from "../../organisms/NavBar";
+import { UserProvider } from "../../../contexts/UserContext";
 
 const SessionTemplate = ({ children }: TemplateProps) => {
   const navigate = useNavigate();
@@ -19,10 +20,12 @@ const SessionTemplate = ({ children }: TemplateProps) => {
 	return (
     <>
       {!isLoading && (
+        <UserProvider>
           <div className='flex bg-[#333333] h-dvh w-dvw items-center justify-center lg:pt-28'>
             <NavBar />
             {children}
           </div>
+        </UserProvider>
         )
       }
     </>
