@@ -13,18 +13,16 @@ export default function PostUI() {
   } = usePost();
 
   return (
-    <div className="w-full">
-      <PostCard
-        avatarUrl={user?.image_url}
-        link={link}
-        description={description}
-        onLinkChange={setLink}
-        onDescriptionChange={setDescription}
-        onSubmit={handlePost}
-        disabled={loading}
-        loading={loading}
-        buttonLabel="Publicar"
-      />
-    </div>
+    <PostCard
+      avatarUrl={user?.image_url}
+      link={link}
+      description={description}
+      onLinkChange={setLink}
+      onDescriptionChange={setDescription}
+      onSubmit={handlePost}
+      disabled={loading}
+      loading={loading}
+      buttonLabel="Publicar"
+    />
   );
 }

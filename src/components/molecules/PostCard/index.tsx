@@ -38,7 +38,7 @@ export function PostCard({
     <Card
       className={cn(
         "w-[615px] h-[209px] bg-white rounded-[16px] shadow-md font-lato",
-        "flex gap-[18px] px-[18px] py-[16px] items-start"
+        "flex flex-row gap-[18px] px-[18px] py-[16px] items-start"
       )}
     >
       {/* Avatar */}
@@ -88,7 +88,7 @@ export function PostCard({
               "
             />
 
-            <div className="flex justify-end mt-[3px]">
+            <div className="flex justify-end mr-1">
               <Button
                 onClick={onSubmit}
                 disabled={disabled || !link.trim()}
