@@ -21,7 +21,7 @@ const SessionTemplate = ({ children }: TemplateProps) => {
     <>
       {!isLoading && (
         <UserProvider>
-          <div className='flex bg-[#333333] h-dvh w-dvw items-center justify-center lg:pt-28'>
+          <div className='flex bg-[#333333] h-dvh w-dvw justify-center lg:pt-28'>
             <NavBar />
             {children}
           </div>
