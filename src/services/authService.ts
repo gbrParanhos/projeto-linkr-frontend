@@ -15,11 +15,8 @@ export async function loginRequest(email: string, password: string) {
   return res.json();
 }
 
-<<<<<<< HEAD
-export async function registerRequest(name: string, email: string, password: string, photo: string) {
-=======
 export async function registerRequest(name: string, email: string, image_url: string, password: string, photo: string) {
->>>>>>> 2a902451e2dbbd1f038f6065c66ff544c4de68cb
+
   const res = await fetch(`${API_URL}/sign-up`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

@@ -30,11 +30,6 @@ button {
   cursor: pointer;
 }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
 @layer base {
   body {
     background-color: var(--background);
