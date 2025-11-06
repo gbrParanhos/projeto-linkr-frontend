@@ -29,26 +29,34 @@ export function usePost() {
     }
 
     try {
-      setLoading(true);
+      new URL(link.trim());
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Link inválido",
+        text: "Por favor, insira um link válido (ex: https://exemplo.com).",
+        confirmButtonColor: "#1877F2",
+      });
+      return;
+    }
 
+    try {
+      setLoading(true);
       await axios.post(
-        `${import.meta.env.VITE_API_URL}/posts`,
+        `${import.meta.env.VITE_BACKEND}/posts`,
         { link, description },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
       Swal.fire({
         icon: "success",
         title: "Publicado!",
         text: "Seu link foi compartilhado com sucesso.",
         confirmButtonColor: "#1877F2",
       });
-
       setLink("");
       setDescription("");
-
       globalThis.dispatchEvent(new Event("feedUpdated"));
     } catch (err) {
       console.error(err);

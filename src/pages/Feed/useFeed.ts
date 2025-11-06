@@ -11,7 +11,7 @@ export function useFeed() {
   async function fetchPosts() {
     try {
       setLoading(true);
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/posts`, {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND}/posts`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPosts(res.data);

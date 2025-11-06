@@ -19,7 +19,12 @@ export async function registerRequest(name: string, email: string, password: str
   const res = await fetch(`${API_URL}/sign-up`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password, photo, image_url }),
+    body: JSON.stringify({
+      name,
+      email,
+      password,
+      image_url: photo,
+    }),
   });
 
   if (!res.ok) {

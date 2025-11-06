@@ -36,7 +36,7 @@ export function useSignUp() {
 
     try {
       setLoading(true);
-      await registerRequest(name, email, photo, password, photo);
+      await registerRequest(name, email, password, photo);
 
       await Swal.fire({
         icon: "success",
