@@ -70,7 +70,11 @@ export function usePost() {
     try {
       setLoadingPosts(true);
       const res = await axios.get(`${import.meta.env.VITE_BACKEND}/posts`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'ngrok-skip-browser-warning': true
+        },
+
       });
       setPosts(res.data);
     } catch (err) {
