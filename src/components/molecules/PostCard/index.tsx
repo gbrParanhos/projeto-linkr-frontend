@@ -2,7 +2,9 @@ import { Card, CardContent } from "../../atoms/Card";
 import { Button } from "../../atoms/Button";
 import DefaultInput from "../../atoms/DefaultInput";
 import { cn } from "../../../lib/utils";
-import type { ReactNode } from "react";
+import { useContext, type ReactNode } from "react";
+import UserContext from "../../../contexts/UserContext";
+import Avatar from "../../atoms/Avatar";
 
 
 interface PostCardProps {
@@ -21,7 +23,6 @@ interface PostCardProps {
 }
 
 export function PostCard({
-  avatarUrl,
   title = "O que você tem pra compartilhar hoje?",
   link = "",
   description = "",
@@ -34,24 +35,17 @@ export function PostCard({
   readOnly = false,
   footerSlot,
 }: PostCardProps) {
+  const { image_url } = useContext(UserContext);
+
   return (
     <Card
       className={cn(
         "w-[615px] h-[209px] bg-white rounded-[16px] shadow-md font-lato",
-        "flex flex-row gap-[18px] px-[18px] py-[16px] items-start"
+        "flex-row gap-[18px] px-[18px] py-[16px] items-start hidden lg:flex"
       )}
     >
       {/* Avatar */}
-      <div className="mt-[4px]">
-        <img
-          src={avatarUrl || "/default-avatar.png"}
-          alt="User avatar"
-          className="
-            w-[48.96px] h-[50px] 
-            rounded-[26.5px] object-cover
-          "
-        />
-      </div>
+      <Avatar image_url={image_url} size={50} />
 
       <CardContent className="flex flex-col flex-1 p-0">
         {!readOnly ? (

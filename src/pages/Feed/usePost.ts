@@ -1,21 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
-
-interface User {
-  id?: number;
-  username?: string;
-  image_url?: string;
-}
+import type { Post } from "../../types";
 
 export function usePost() {
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadingPosts, setLoadingPosts] = useState(false);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const token = localStorage.getItem("auth_token");
-  const userData = localStorage.getItem("user_data");
-  const user: User | null = userData ? JSON.parse(userData) : null;
 
   async function handlePost() {
     if (!link.trim()) {
@@ -71,6 +66,26 @@ export function usePost() {
     }
   }
 
+  useEffect(() => {(async () => {
+    try {
+      setLoadingPosts(true);
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND}/posts`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setPosts(res.data);
+    } catch (err) {
+      console.error("Erro ao carregar posts:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Um erro aconteceu. Atualize a página ou tente novamente em alguns minutos.",
+        confirmButtonColor: "#1877F2",
+      });
+    } finally {
+      setLoadingPosts(false);
+    }
+  })()}, []);
+
   return {
     link,
     description,
@@ -78,6 +93,7 @@ export function usePost() {
     setDescription,
     loading,
     handlePost,
-    user,
+    loadingPosts,
+    posts,
   };
 }

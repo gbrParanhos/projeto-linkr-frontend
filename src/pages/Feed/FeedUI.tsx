@@ -3,20 +3,18 @@ import SuggestionsPanel from "./SuggestionsPanel";
 
 export default function FeedUI() {
   return (
-    <div className="mx-auto w-full max-w-[980px] flex flex-col gap-8">
-      <h1 className="font-passion font-bold text-[43px] leading-[100%] tracking-[0em] text-white">
+    <>
+      <h1 className="font-passion font-bold text-[28px] text-white lg:text-[43px] 2xl:mr-[890px]">
         Feed
       </h1>
 
-      <div className="flex gap-6">
-        <div className="w-full max-w-[611px]">
-          <PostUI />
-        </div>
+      <div className="flex w-full lg:w-auto gap-8">
+        <PostUI />
 
-        <aside className="hidden lg:block sticky top-[185px] w-[328px]">
+        <aside className="hidden sticky h-fit top-[100px] 2xl:block">
           <SuggestionsPanel />
         </aside>
       </div>
-    </div>
+    </>
   );
 }

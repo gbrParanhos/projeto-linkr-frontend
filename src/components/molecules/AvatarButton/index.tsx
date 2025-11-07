@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import Avatar from "../../atoms/Avatar";
 
 interface AvatarButtonProps {
   onClick: () => void;
@@ -7,12 +8,6 @@ interface AvatarButtonProps {
 
 export default function AvatarButton({ onClick, image_url }: AvatarButtonProps) {
   const styles = {
-    mobile: {
-      avatar_button: {
-        base: 'flex items-center justify-center w-11 h-11 rounded-full overflow-hidden border-2 border-[#333333]',
-        lg: 'lg:hidden'
-      }
-    },
     desktop: {
       avatar_button: {
         base: 'hidden bg-[#333333] gap-3 items-center p-[5px] rounded-[10px]',
@@ -32,8 +27,8 @@ export default function AvatarButton({ onClick, image_url }: AvatarButtonProps) 
 
   return (
     <>
-      <button className={classNames(styles.mobile.avatar_button.base, styles.mobile.avatar_button.lg)} onClick={onClick}>
-        <img src={image_url} alt="avatar" />
+      <button className='lg:hidden' onClick={onClick}>
+        <Avatar image_url={image_url} size={44} border_size={2} />
       </button>
       <button className={classNames(styles.desktop.avatar_button.base, styles.desktop.avatar_button.lg)} onClick={onClick}>
         <div className={classNames(styles.desktop.image_container.base)}>

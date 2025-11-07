@@ -20,7 +20,7 @@ const NavBar = () => {
 
 	const styles = {
 		container: {
-			base: 'fixed bottom-0 left-3 right-3 px-6 mb-2 flex h-14 rounded-2xl bg-[#151515] justify-between items-center',
+			base: 'fixed bottom-0 left-3 right-3 px-6 mb-2 flex h-14 rounded-2xl bg-[#151515] justify-between items-center z-50',
 			lg: 'lg:mb-0 lg:bottom-auto lg:px-3.5 lg:left-auto lg:right-auto lg:top-0 lg:h-20 lg:w-dvw lg:rounded-none'
 		},
 		text_title: {

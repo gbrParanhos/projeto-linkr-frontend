@@ -11,9 +11,13 @@ export interface TUserContext {
 
 export interface Post {
   id: number;
+  userId: number;
   link: string;
   description: string;
-  username: string;
-  image_url: string;
-  created_at: string;
+  user: {
+    id: number;
+    name: string;
+    image_url: string;
+  };
+  createdAt: string;
 }
