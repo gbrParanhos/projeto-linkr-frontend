@@ -13,6 +13,7 @@ export default function PostUI() {
     handlePost,
     loadingPosts,
     posts,
+    handleDelete
   } = usePost();
 
   return (
@@ -36,7 +37,7 @@ export default function PostUI() {
           ) : (
           posts.length ? (
             posts.map((post, index) => (
-              <PostItem post={post} key={index}/>
+              <PostItem post={post} key={index} handleDelete={handleDelete} />
             ))
           ) : (
             <p className="mt-20 text-center text-2xl gap-2 text-white" >Nenhuma postagem no momento...</p>
