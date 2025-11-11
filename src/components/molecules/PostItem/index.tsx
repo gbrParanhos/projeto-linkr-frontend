@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import type { Post } from "../../../types";
-import parseHashtags from "../../../utils/helper";
+import type { Post, TMetaData } from "../../../types";
+import parseHashtags, { fetchMetadata } from "../../../utils/helper";
 import Avatar from "../../atoms/Avatar";
-// import urlMetadata from "url-metadata";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import MetaDataCard from "../../atoms/MetaDataCard";
 
 interface PostItemProps {
   post: Post;
@@ -29,22 +29,19 @@ export default function PostItem({ post }: PostItemProps) {
     description: {
       base: 'font-lato text-[#B7B7B7] text-[17px]',
       lg: 'lg:w-10/12 lg:self-end'
-    },
-    link: {
-      base: 'font-lato font-bold text-white text-[17px]',
-      lg: 'lg:w-10/12 lg:self-end'
     }
   };
 
-  // const [metaData, setMetaData] = useState<urlMetadata.Result | null>(null)
+  const [metaData, setMetaData] = useState<TMetaData | null>(null)
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const meta_data = await urlMetadata(post.link);
-  //     setMetaData(meta_data)
-  //   })()
-  // }, [ post ])
-
+  useEffect(() => {
+    (async () => {
+      if (!metaData) {
+        const metadata = await fetchMetadata(post.link);
+        setMetaData(metadata);
+      }
+    })()
+  }, [ post, metaData ]);
 
   return (
     <div className={classNames(styles.container.base, styles.container.lg)}>
@@ -57,7 +54,7 @@ export default function PostItem({ post }: PostItemProps) {
 
       <p className={classNames(styles.description.base, styles.description.lg)}>{parseHashtags(post.description)}</p>
       
-      <a href={post.link} target="_blank" className={classNames(styles.link.base, styles.link.lg)}>{post.link}</a>
+      <MetaDataCard metaData={metaData} />
     </div>
   );
 }
