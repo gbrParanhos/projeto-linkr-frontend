@@ -1,9 +1,10 @@
-import * as React from "react"
-import { cn } from "../../../lib/utils"
+import * as React from "react";
+import { cn } from "../../../lib/utils";
 
-export default function DefaultInput({ className, type, ...props }: React.ComponentProps<"input">) {
-  return (
+const DefaultInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
+  ({ className, type = "text", ...props }, ref) => (
     <input
+      ref={ref}
       type={type}
       data-slot="input"
       className={cn(
@@ -15,4 +16,8 @@ export default function DefaultInput({ className, type, ...props }: React.Compon
       {...props}
     />
   )
-}
+);
+
+DefaultInput.displayName = "DefaultInput";
+
+export default DefaultInput;
