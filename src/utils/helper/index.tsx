@@ -2,13 +2,19 @@ import axios from "axios";
 import type { TMetaData } from "../../types";
 
 const parseHashtags = (text: string) => {
-  const words = text.split(' ');
-  
+  if (!text) return "";
+  const words = text.split(" ");
+
   return words.map((word, index) => {
-    if (word.startsWith('#')) return <strong key={index} className="font-bold! text-white!">{word} </strong>
+    if (word.startsWith("#"))
+      return (
+        <strong key={index} className="font-bold! text-white!">
+          {word}{" "}
+        </strong>
+      );
     return `${word} `;
   });
-}
+};
 
 export const fetchMetadata = async (url: string): Promise<TMetaData> => {
   try {
