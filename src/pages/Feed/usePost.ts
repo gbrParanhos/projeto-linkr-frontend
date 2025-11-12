@@ -52,7 +52,7 @@ export function usePost() {
       });
       setLink("");
       setDescription("");
-      globalThis.dispatchEvent(new Event("feedUpdated"));
+      await fetchPosts()
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -66,11 +66,44 @@ export function usePost() {
     }
   }
 
-  useEffect(() => {(async () => {
+  async function handleDelete(postId: number) {
+    try {
+      setLoading(true);
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND}/posts/${postId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      Swal.fire({
+        icon: "success",
+        title: "Deletado!",
+        text: "Seu link foi deletado com sucesso.",
+        confirmButtonColor: "#1877F2",
+      });
+      await fetchPosts()
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Houve um erro ao deletar seu link. Tente novamente.",
+        confirmButtonColor: "#1877F2",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function fetchPosts() {
     try {
       setLoadingPosts(true);
       const res = await axios.get(`${import.meta.env.VITE_BACKEND}/posts`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'ngrok-skip-browser-warning': true
+        },
+
       });
       setPosts(res.data);
     } catch (err) {
@@ -84,6 +117,10 @@ export function usePost() {
     } finally {
       setLoadingPosts(false);
     }
+  }
+
+  useEffect(() => {(async () => {
+    await fetchPosts();
   })()}, []);
 
   return {
@@ -95,5 +132,6 @@ export function usePost() {
     handlePost,
     loadingPosts,
     posts,
+    handleDelete
   };
 }

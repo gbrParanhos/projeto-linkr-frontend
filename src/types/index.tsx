@@ -21,3 +21,14 @@ export interface Post {
   };
   createdAt: string;
 }
+
+export interface TMetaData {
+  title: string;
+  description: string;
+  images: string;
+  url: string;
+}
+
+export interface TResponseMetaData {
+  data: TMetaData
+}
