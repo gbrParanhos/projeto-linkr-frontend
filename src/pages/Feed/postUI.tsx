@@ -1,5 +1,5 @@
 import { usePost } from "./usePost";
-import { PostCard } from "../../components/molecules/PostCard";
+import { NewPostCard } from "../../components/molecules/NewPostCard";
 import { Loader2 } from "lucide-react";
 import PostItem from "../../components/molecules/PostItem";
 
@@ -18,7 +18,7 @@ export default function PostUI() {
 
   return (
     <div className="flex flex-col items-center 2xl:items-start gap-5 w-full">
-      <PostCard
+      <NewPostCard
         link={link}
         description={description}
         onLinkChange={setLink}

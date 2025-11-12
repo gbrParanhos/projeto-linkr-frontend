@@ -1,14 +1,25 @@
-import axios from "axios";
+import axios, { type AxiosRequestHeaders } from "axios";
 
-const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND,
-});
+function pickBaseURL() {
+  const env = (import.meta as unknown as { env: Record<string, string | undefined> }).env;
+  const raw = env.VITE_API_URL ?? env.VITE_BACKEND ?? "";
+  const trimmed = raw?.replace(/\/+$/, "") ?? "";
+  return trimmed || undefined;
+}
+
+const api = axios.create({ baseURL: pickBaseURL() });
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("auth_token");
   if (token) {
-    config.headers = config.headers ?? {};
-    config.headers.Authorization = `Bearer ${token}`;
+    const current = config.headers;
+    if (current && typeof (current as any).set === "function") {
+      (current as any).set("Authorization", `Bearer ${token}`);
+    } else {
+      const headers: AxiosRequestHeaders = (current ?? {}) as AxiosRequestHeaders;
+      headers["Authorization"] = `Bearer ${token}`;
+      config.headers = headers;
+    }
   }
   return config;
 });
