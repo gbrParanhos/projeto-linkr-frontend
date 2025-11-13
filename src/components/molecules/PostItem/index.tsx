@@ -24,7 +24,7 @@ export default function PostItem({
 }: PostItemProps) {
   const styles = {
     container: {
-      base: "w-full flex flex-col gap-6 bg-[#171717] px-3 pt-2.5 pb-12",
+      base: "w-full flex flex-col gap-6 bg-[#171717] px-3 pt-2.5 pb-12 z-0",
       lg: "lg:px-5 lg:pt-6 lg:pb-7 lg:w-[615px] lg:rounded-3xl",
     },
     row_actions: {
@@ -43,7 +43,7 @@ export default function PostItem({
       lg: "lg:w-[60px] lg:border-[#333333] lg:border-[5px]",
     },
     username: {
-      base: "font-lato text-white pl-5 pr-3 py-1 z-0",
+      base: "font-lato text-white pl-5 pr-3 py-1 z-5",
       lg: "lg:bg-[#333333] lg:text-[20px] lg:rounded-r-[15px] lg:-ml-3",
     },
     description: {

@@ -28,7 +28,7 @@ const NavBar = () => {
 
   const styles = {
     container: {
-      base: "px-6 w-full flex h-14 rounded-2xl bg-[#151515] justify-between items-center z-50 shadow-[0px_0px_10px_0px_#484848]",
+      base: "px-6 w-full flex h-14 rounded-2xl bg-[#151515] justify-between items-center shadow-[0px_0px_10px_0px_#484848]",
       lg: "lg:mb-0 lg:px-3.5 lg:left-auto lg:right-auto lg:h-20 lg:w-dvw lg:rounded-none lg:shadow-none",
     },
     text_title: {
@@ -38,7 +38,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="w-screen fixed bottom-2 lg:top-0 lg:bottom-auto px-2 lg:px-0">
+    <div className="w-screen fixed bottom-2 lg:top-0 lg:bottom-auto px-2 lg:px-0 z-50">
       <div className={classNames(styles.container.base, styles.container.lg)}>
         <h1 className={classNames(styles.text_title.base, styles.text_title.lg)}>Linkr</h1>
         <button
