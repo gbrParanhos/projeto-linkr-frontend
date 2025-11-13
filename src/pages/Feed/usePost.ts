@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import type { Post } from "../../types";
@@ -9,11 +9,14 @@ export function usePost() {
   const [loading, setLoading] = useState(false);
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
+  const fetchErrorShownRef = useRef(false);
 
   const token = localStorage.getItem("auth_token");
 
   async function handlePost() {
-    if (!link.trim()) {
+    const trimmedLink = link.trim();
+
+    if (!trimmedLink) {
       Swal.fire({
         icon: "warning",
         title: "Campo obrigatório",
@@ -24,7 +27,7 @@ export function usePost() {
     }
 
     try {
-      new URL(link.trim());
+      new URL(trimmedLink);
     } catch {
       Swal.fire({
         icon: "error",
@@ -39,7 +42,7 @@ export function usePost() {
       setLoading(true);
       await axios.post(
         `${import.meta.env.VITE_BACKEND}/posts`,
-        { link, description },
+        { link: trimmedLink, description },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -52,7 +55,7 @@ export function usePost() {
       });
       setLink("");
       setDescription("");
-      await fetchPosts()
+      await fetchPosts();
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -69,19 +72,16 @@ export function usePost() {
   async function handleDelete(postId: number) {
     try {
       setLoading(true);
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND}/posts/${postId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await axios.delete(`${import.meta.env.VITE_BACKEND}/posts/${postId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       Swal.fire({
         icon: "success",
         title: "Deletado!",
         text: "Seu link foi deletado com sucesso.",
         confirmButtonColor: "#1877F2",
       });
-      await fetchPosts()
+      await fetchPosts();
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -95,33 +95,101 @@ export function usePost() {
     }
   }
 
+  async function handleEdit(postId: number, data: { description: string; link: string }): Promise<boolean> {
+    const trimmedLink = data.link.trim();
+
+    if (!trimmedLink) {
+      Swal.fire({
+        icon: "warning",
+        title: "Campo obrigatório",
+        text: "Por favor, insira um link antes de atualizar.",
+        confirmButtonColor: "#1877F2",
+      });
+      return false;
+    }
+
+    try {
+      new URL(trimmedLink);
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Link inválido",
+        text: "Por favor, insira um link válido (ex: https://exemplo.com).",
+        confirmButtonColor: "#1877F2",
+      });
+      return false;
+    }
+
+    try {
+      setLoading(true);
+      await axios.put(
+        `${import.meta.env.VITE_BACKEND}/posts/${postId}`,
+        {
+          link: trimmedLink,
+          description: data.description,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      Swal.fire({
+        icon: "success",
+        title: "Atualizado!",
+        text: "Seu post foi atualizado com sucesso.",
+        confirmButtonColor: "#1877F2",
+      });
+
+      await fetchPosts();
+      return true;
+    } catch (err) {
+      console.error(err);
+
+      Swal.fire({
+        icon: "error",
+        title: "Erro",
+        text: "Não foi possível atualizar seu post. Tente novamente.",
+        confirmButtonColor: "#1877F2",
+      });
+
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function fetchPosts() {
     try {
       setLoadingPosts(true);
       const res = await axios.get(`${import.meta.env.VITE_BACKEND}/posts`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'ngrok-skip-browser-warning': true
+          "ngrok-skip-browser-warning": true,
         },
-
       });
       setPosts(res.data);
+      fetchErrorShownRef.current = false;
     } catch (err) {
       console.error("Erro ao carregar posts:", err);
-      Swal.fire({
-        icon: "error",
-        title: "Erro",
-        text: "Um erro aconteceu. Atualize a página ou tente novamente em alguns minutos.",
-        confirmButtonColor: "#1877F2",
-      });
+      if (!fetchErrorShownRef.current) {
+        Swal.fire({
+          icon: "error",
+          title: "Erro",
+          text: "Um erro aconteceu. Atualize a página ou tente novamente em alguns minutos.",
+          confirmButtonColor: "#1877F2",
+        });
+        fetchErrorShownRef.current = true;
+      }
     } finally {
       setLoadingPosts(false);
     }
   }
 
-  useEffect(() => {(async () => {
-    await fetchPosts();
-  })()}, []);
+  useEffect(() => {
+    (async () => {
+      await fetchPosts();
+    })();
+  }, []);
 
   return {
     link,
@@ -132,6 +200,7 @@ export function usePost() {
     handlePost,
     loadingPosts,
     posts,
-    handleDelete
+    handleDelete,
+    handleEdit,
   };
 }
