@@ -39,8 +39,8 @@ export default function PostItem({
       base: "flex items-center",
     },
     image_border: {
-      base: "rounded-full z-10",
-      lg: "lg:w-[60px] lg:border-[#333333] lg:border-[5px]",
+      base: "w-[40px] h-[40px] rounded-full z-10 overflow-hidden flex items-center justify-center bg-[#333333]",
+      lg: "lg:w-[60px] lg:h-[60px] lg:border-[#333333] lg:border-[5px]",
     },
     username: {
       base: "font-lato text-white pl-5 pr-3 py-1 z-5",

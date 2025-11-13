@@ -27,7 +27,7 @@ export default function AvatarButton({ onClick, image_url }: AvatarButtonProps) 
 
   return (
     <>
-      <button className='lg:hidden' onClick={onClick}>
+      <button className='lg:hidden rounded-full z-10 overflow-hidden flex items-center justify-center bg-[#171717] w-11 h-11 border-2 border-[#333333]' onClick={onClick}>
         <Avatar image_url={image_url} size={44} border_size={2} />
       </button>
       <button className={classNames(styles.desktop.avatar_button.base, styles.desktop.avatar_button.lg)} onClick={onClick}>

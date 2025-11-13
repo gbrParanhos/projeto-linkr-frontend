@@ -72,7 +72,7 @@ export function NewPostCard({
   return (
     <Card className={containerClass}>
       {variant === "desktop" && topRightSlot && <div className="absolute right-4 top-3">{topRightSlot}</div>}
-      {variant === "desktop" && <Avatar image_url={image_url} size={50} />}
+      {variant === "desktop" && <div className="rounded-full z-10 overflow-hidden flex items-center justify-center bg-white lg:w-[50px] lg:h-[50px]"><Avatar image_url={image_url} size={50} /></div>}
 
       <CardContent className={variant === "desktop" ? "flex flex-col flex-1 p-0" : "flex flex-col items-center p-0 w-full"}>
         {variant === "mobile" && topRightSlot && <div className="w-full max-w-[353px] flex justify-end pt-1 pb-1">{topRightSlot}</div>}

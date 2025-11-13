@@ -53,8 +53,8 @@ const NavBar = () => {
           isMenuOpen={isMenuOpen}
           Buttons={
             <>
-              <MenuButton onClick={onGoToProfile} text="Meu Perfil" />
               <MenuButton onClick={onLogout} text="Sair" />
+              <MenuButton onClick={onGoToProfile} text="Meu Perfil" />
             </>
           }
         />
