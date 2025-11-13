@@ -17,7 +17,13 @@ const NavBar = () => {
   const onLogout = () => {
     localStorage.removeItem("auth_token");
     localStorage.removeItem("user_data");
+    setIsMenuOpen(false);
     navigate("/");
+  };
+
+  const onGoToProfile = () => {
+    setIsMenuOpen(false);
+    navigate("/user/my-profile");
   };
 
   const styles = {
@@ -47,8 +53,8 @@ const NavBar = () => {
           isMenuOpen={isMenuOpen}
           Buttons={
             <>
+              <MenuButton onClick={onGoToProfile} text="Meu Perfil" />
               <MenuButton onClick={onLogout} text="Sair" />
-              <MenuButton onClick={() => {}} text="Meu Perfil" />
             </>
           }
         />

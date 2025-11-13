@@ -61,11 +61,7 @@ export default function MobilePostSheet({
           loading={loading}
           buttonLabel="Postar"
           topRightSlot={
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-[#1877F2] text-[14px] font-semibold"
-            >
+            <button type="button" onClick={onClose} className="text-[#1877F2] text-[14px] font-semibold">
               Fechar
             </button>
           }

@@ -4,6 +4,8 @@ import LoginPage from "../pages/Login";
 import SignUpPage from "../pages/SignUp";
 import SessionTemplate from "../components/templates/SessionTemplate";
 import FeedPage from "../pages/Feed";
+import ProfileUI from "../pages/Profile/profileUI"; // ⬅ importa a página de perfil
+
 const Router = () => {
   return (
     <BrowserRouter>
@@ -29,6 +31,14 @@ const Router = () => {
           element={
             <SessionTemplate>
               <FeedPage />
+            </SessionTemplate>
+          }
+        />
+        <Route
+          path="/user/my-profile"
+          element={
+            <SessionTemplate>
+              <ProfileUI />
             </SessionTemplate>
           }
         />
