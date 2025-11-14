@@ -11,6 +11,18 @@ type Profile = {
   about: string;
 };
 
+function isValidImageUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    if (!["http:", "https:"].includes(url.protocol)) return false;
+    const pathname = url.pathname.toLowerCase();
+    const hasImageExtension = /\.(png|jpe?g|gif|webp|svg)$/.test(pathname);
+    return hasImageExtension;
+  } catch {
+    return false;
+  }
+}
+
 export function useProfile() {
   const [profile, setProfile] = useState<Profile>({
     name: "",
@@ -18,6 +30,8 @@ export function useProfile() {
     imageUrl: "",
     about: "",
   });
+
+  const [initialProfile, setInitialProfile] = useState<Profile | null>(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -41,6 +55,23 @@ export function useProfile() {
   async function handleSubmitProfile() {
     if (!isEditing) return;
 
+    const trimmedImageUrl = profile.imageUrl.trim();
+
+    if (trimmedImageUrl && !isValidImageUrl(trimmedImageUrl)) {
+      Swal.fire({
+        icon: "error",
+        title: "URL de imagem inválida",
+        text: "Por favor, insira um link válido de imagem para a foto de perfil (ex: https://exemplo.com/minha-foto.png).",
+        confirmButtonColor: "#1877F2",
+      });
+
+      if (initialProfile) {
+        setProfile(initialProfile);
+      }
+
+      return;
+    }
+
     try {
       setIsSaving(true);
 
@@ -49,7 +80,7 @@ export function useProfile() {
         {
           name: profile.name.trim(),
           age: profile.age ? Number(profile.age) : null,
-          imageUrl: profile.imageUrl.trim() || null,
+          imageUrl: trimmedImageUrl || null,
           about: profile.about.trim() || null,
         },
         {
@@ -58,6 +89,16 @@ export function useProfile() {
           },
         }
       );
+
+      const updatedProfile: Profile = {
+        name: profile.name.trim(),
+        age: profile.age ? String(Number(profile.age)) : "",
+        imageUrl: trimmedImageUrl,
+        about: profile.about.trim(),
+      };
+
+      setProfile(updatedProfile);
+      setInitialProfile(updatedProfile);
 
       Swal.fire({
         icon: "success",
@@ -69,12 +110,17 @@ export function useProfile() {
       setIsEditing(false);
     } catch (err) {
       console.error("Erro ao atualizar perfil:", err);
+
       Swal.fire({
         icon: "error",
-        title: "Erro",
-        text: "Não foi possível atualizar seu perfil. Tente novamente.",
+        title: "Erro ao salvar perfil",
+        text: "Não foi possível salvar suas informações. Verifique a conexão ou tente novamente em alguns instantes.",
         confirmButtonColor: "#1877F2",
       });
+
+      if (initialProfile) {
+        setProfile(initialProfile);
+      }
     } finally {
       setIsSaving(false);
     }
@@ -95,12 +141,15 @@ export function useProfile() {
         about?: string | null;
       };
 
-      setProfile({
+      const loadedProfile: Profile = {
         name: data.name ?? "",
         age: data.age != null ? String(data.age) : "",
         imageUrl: data.image_url ?? "",
         about: data.about ?? "",
-      });
+      };
+
+      setProfile(loadedProfile);
+      setInitialProfile(loadedProfile);
     } catch (err) {
       console.error("Erro ao carregar perfil:", err);
       Swal.fire({

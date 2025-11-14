@@ -1,7 +1,9 @@
+import { useEffect, useRef } from "react";
 import Avatar from "../../components/atoms/Avatar";
 import PostItem from "../../components/molecules/PostItem";
 import { Loader2, Pencil } from "lucide-react";
 import { useProfile } from "./useProfile";
+import classNames from "classnames";
 
 export default function ProfileUI() {
   const {
@@ -17,6 +19,14 @@ export default function ProfileUI() {
     handleEditPost,
   } = useProfile();
 
+  const firstInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (isEditing && firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }, [isEditing]);
+
   const styles = {
     page: "w-full flex flex-col items-center gap-10 mt-10 mb-20 px-4",
     profileCard: {
@@ -30,12 +40,12 @@ export default function ProfileUI() {
       right: "flex-1 bg-[#1E1E1E] px-6 py-6 lg:px-10 lg:py-8 flex flex-col gap-4",
       fieldRow: "flex flex-col gap-1",
       fieldLabel: "font-lato text-[13px] text-[#E0E0E0]",
-      fieldInput:
-        "w-full h-10 rounded-[3px] bg-[#262626] border border-[#3C3C3C] px-3 text-[14px] text-white outline-none focus:border-[#1877F2] disabled:opacity-80",
-      fieldTextarea:
-        "w-full rounded-[3px] bg-[#262626] border border-[#3C3C3C] px-3 py-2 text-[14px] text-white outline-none focus:border-[#1877F2] min-h-[90px] resize-none disabled:opacity-80",
-      editButton:
-        "absolute top-4 right-4 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1877F2] text-white text-[13px] font-bold hover:bg-[#1668d9] transition disabled:opacity-60 disabled:cursor-not-allowed",
+      fieldInputBase: "w-full h-10 rounded-[3px] border px-3 text-[14px] outline-none",
+      fieldInputView: "bg-[#262626] border-[#3C3C3C] text-white disabled:opacity-80 focus:border-[#1877F2]",
+      fieldInputEdit: "bg-[#E3E3E3] border-[#E3E3E3] text-[#151515]",
+      fieldTextareaBase: "w-full rounded-[3px] border px-3 py-2 text-[14px] outline-none min-h-[90px] resize-none",
+      fieldTextareaView: "bg-[#262626] border-[#3C3C3C] text-white disabled:opacity-80 focus:border-[#1877F2]",
+      fieldTextareaEdit: "bg-[#E3E3E3] border-[#E3E3E3] text-[#151515]",
     },
     postsSection: {
       container: "w-full max-w-[960px] flex flex-col gap-6",
@@ -63,24 +73,50 @@ export default function ProfileUI() {
         </div>
 
         <div className={styles.profileCard.right}>
-          <button
-            type="button"
-            className={styles.profileCard.editButton}
-            onClick={handleToggleEdit}
-            disabled={isSaving}
-          >
-            Editar
-            <Pencil className="w-4 h-4" />
-          </button>
+          <div className="absolute top-4 right-4 flex items-center gap-3">
+            {!isEditing ? (
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1877F2] text-white text-[13px] font-bold hover:bg-[#1668d9] transition disabled:opacity-60 disabled:cursor-not-allowed"
+                onClick={handleToggleEdit}
+                disabled={isSaving}
+              >
+                Editar
+                <Pencil className="w-4 h-4" />
+              </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={handleToggleEdit}
+                  disabled={isSaving}
+                  className="px-5 py-1.5 rounded-md border border-[#E3E3E3] bg-transparent text-white text-[13px] font-bold hover:bg-white/5 transition disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSaving}
+                  className="px-5 py-1.5 rounded-md bg-[#1877F2] text-white text-[13px] font-bold hover:bg-[#1668d9] transition disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {isSaving ? "Salvando..." : "Salvar"}
+                </button>
+              </>
+            )}
+          </div>
 
           <div className={styles.profileCard.fieldRow}>
             <span className={styles.profileCard.fieldLabel}>Nome:</span>
             <input
+              ref={firstInputRef}
               type="text"
               value={profile.name}
               onChange={(e) => handleFieldChange("name", e.target.value)}
               disabled={!isEditing || isSaving}
-              className={styles.profileCard.fieldInput}
+              className={classNames(
+                styles.profileCard.fieldInputBase,
+                isEditing ? styles.profileCard.fieldInputEdit : styles.profileCard.fieldInputView
+              )}
             />
           </div>
 
@@ -91,7 +127,10 @@ export default function ProfileUI() {
               value={profile.age}
               onChange={(e) => handleFieldChange("age", e.target.value)}
               disabled={!isEditing || isSaving}
-              className={styles.profileCard.fieldInput}
+              className={classNames(
+                styles.profileCard.fieldInputBase,
+                isEditing ? styles.profileCard.fieldInputEdit : styles.profileCard.fieldInputView
+              )}
             />
           </div>
 
@@ -102,7 +141,10 @@ export default function ProfileUI() {
               value={profile.imageUrl}
               onChange={(e) => handleFieldChange("imageUrl", e.target.value)}
               disabled={!isEditing || isSaving}
-              className={styles.profileCard.fieldInput}
+              className={classNames(
+                styles.profileCard.fieldInputBase,
+                isEditing ? styles.profileCard.fieldInputEdit : styles.profileCard.fieldInputView
+              )}
             />
           </div>
 
@@ -112,21 +154,12 @@ export default function ProfileUI() {
               value={profile.about}
               onChange={(e) => handleFieldChange("about", e.target.value)}
               disabled={!isEditing || isSaving}
-              className={styles.profileCard.fieldTextarea}
+              className={classNames(
+                styles.profileCard.fieldTextareaBase,
+                isEditing ? styles.profileCard.fieldTextareaEdit : styles.profileCard.fieldTextareaView
+              )}
             />
           </div>
-
-          {isEditing && (
-            <div className="mt-4 flex justify-end">
-              <button
-                type="submit"
-                disabled={isSaving}
-                className="px-6 py-2 rounded-md bg-[#1877F2] text-white text-[14px] font-bold hover:bg-[#1668d9] transition disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {isSaving ? "Salvando..." : "Salvar alterações"}
-              </button>
-            </div>
-          )}
         </div>
       </form>
 
